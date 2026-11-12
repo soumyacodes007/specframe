@@ -1,0 +1,144 @@
+/* Specframe overlay. Everything is !important so the host page's CSS can't bend it. */
+
+/* ── Measurement overlay (SVG) ── */
+svg.sf-overlay[data-specframe] {
+  --sf-accent: #0d99ff;
+  --sf-font: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  position: fixed !important; top: 0 !important; left: 0 !important; right: auto !important; bottom: auto !important;
+  width: 100vw !important; height: 100vh !important; max-width: none !important; max-height: none !important;
+  min-width: 0 !important; min-height: 0 !important;
+  margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important;
+  transform: none !important; filter: none !important; clip-path: none !important; mask: none !important;
+  display: block !important; overflow: visible !important; visibility: visible !important;
+  pointer-events: none !important; z-index: 2147483647 !important;
+  opacity: 0 !important; transition: opacity 160ms ease !important;
+}
+svg.sf-overlay[data-specframe].sf-open { opacity: 1 !important; }
+svg.sf-overlay[data-specframe] * { transition: none !important; animation: none !important; }
+
+.sf-overlay line, .sf-overlay path, .sf-overlay .sf-frame, .sf-overlay .sf-content {
+  fill: none; stroke: var(--sf-accent); stroke-width: 1px;
+}
+.sf-overlay .sf-frame { fill: var(--sf-accent); fill-opacity: 0.12; }
+.sf-overlay .sf-grid-minor { stroke-opacity: 0.1; }
+.sf-overlay .sf-grid-major { stroke-opacity: 0.24; }
+.sf-overlay .sf-content, .sf-overlay .sf-dashed { stroke-dasharray: 2 2; stroke-opacity: 0.6; }
+.sf-overlay .sf-hatch-fill { fill: var(--sf-accent); fill-opacity: 0.06; stroke: none; }
+.sf-overlay .sf-hatch-line { stroke-opacity: 0.45; }
+.sf-overlay .sf-dot { fill: var(--sf-accent); stroke: none; }
+.sf-overlay .sf-stop-bone { stop-color: var(--sf-bone); }
+.sf-overlay .sf-stop-shine { stop-color: var(--sf-shine); }
+.sf-overlay text {
+  font: 600 11px var(--sf-font) !important; font-variant-numeric: tabular-nums !important;
+  letter-spacing: normal !important; text-transform: none !important; stroke: none;
+}
+.sf-overlay .sf-pill rect { fill: var(--sf-accent); stroke: none; }
+.sf-overlay .sf-pill text { fill: #fff; text-anchor: middle; dominant-baseline: central; }
+.sf-overlay .sf-pill.sf-soft rect { fill: var(--sf-label-bg); }
+.sf-overlay .sf-pill.sf-soft text { fill: var(--sf-accent); }
+.sf-overlay .sf-probe { visibility: hidden; }
+
+/* Crosshair while Shift is held, and throughout a drag */
+html.sf-armed, html.sf-armed * { cursor: crosshair !important; }
+
+/* ── Hint and toast: dark glass pills ── */
+[data-specframe].sf-glass {
+  all: initial;
+  position: fixed !important; z-index: 2147483647 !important;
+  display: flex !important; align-items: center !important; box-sizing: border-box !important;
+  margin: 0 !important; border: 0 !important;
+  background: rgba(18, 18, 20, 0.72) !important; color: #fff !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%) !important; backdrop-filter: blur(14px) saturate(160%) !important;
+  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.22), 0 6px 18px rgba(0, 0, 0, 0.18) !important;
+  font-family: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
+  font-weight: 500 !important; line-height: 1 !important;
+  letter-spacing: normal !important; text-transform: none !important; white-space: nowrap !important;
+  pointer-events: none !important; opacity: 0 !important;
+}
+[data-specframe].sf-glass.sf-show { opacity: 1 !important; }
+
+[data-specframe].sf-hint {
+  left: 0 !important; top: 0 !important; transform: translate3d(-9999px, -9999px, 0);
+  gap: 6px !important; height: 30px !important; padding: 4px 11px 4px 4px !important;
+  border-radius: 15px !important; font-size: 12px !important;
+  transition: opacity 140ms ease !important;
+}
+
+[data-specframe].sf-toast {
+  left: 50% !important; bottom: 24px !important; top: auto !important;
+  gap: 8px !important; height: 34px !important; padding: 0 14px 0 13px !important;
+  border-radius: 17px !important; font-size: 13px !important;
+  transform: translate(-50%, 8px) !important;
+  transition: opacity 180ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+[data-specframe].sf-toast.sf-show { transform: translate(-50%, 0) !important; }
+
+/* Key inside a pill: 22px tall, radius 11 = 15 (pill) − 4 (padding), so the corners are concentric */
+[data-specframe].sf-key {
+  all: initial;
+  display: inline-flex !important; align-items: center !important; height: 22px !important;
+  padding: 0 8px !important; margin: 0 !important; border-radius: 11px !important;
+  background: rgba(255, 255, 255, 0.16) !important; color: #fff !important;
+  box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.25) !important;
+  font: inherit !important; white-space: nowrap !important;
+}
+[data-specframe].sf-text { all: initial; font: inherit !important; color: inherit !important; white-space: nowrap !important; }
+[data-specframe].sf-dot-mark {
+  all: initial; display: block !important; flex-shrink: 0 !important;
+  width: 6px !important; height: 6px !important; border-radius: 50% !important; background: #0d99ff !important;
+}
+
+/* ── Off-grid values: red ── */
+svg.sf-overlay[data-specframe] { --sf-warn: #f24822; }
+.sf-overlay .sf-off line, .sf-overlay .sf-off path { stroke: var(--sf-warn); }
+.sf-overlay .sf-off .sf-dot, .sf-overlay .sf-hatch-fill.sf-warn { fill: var(--sf-warn); }
+.sf-overlay .sf-hatch-line.sf-warn { stroke: var(--sf-warn); stroke-opacity: 0.6; }
+.sf-overlay .sf-hatch-fill.sf-warn { fill-opacity: 0.1; }
+.sf-overlay .sf-pill.sf-off rect { fill: var(--sf-warn); }
+.sf-overlay .sf-pill.sf-off text { fill: #fff; }
+
+/* Text of the type style under the pointer in the panel */
+.sf-overlay .sf-hot rect { fill: var(--sf-accent); fill-opacity: 0.14; stroke: var(--sf-accent); stroke-width: 1.5px; }
+
+/* ── Pinned frame: values can be clicked to copy ── */
+svg.sf-overlay[data-specframe].sf-pinned .sf-pill[data-sf-copy] { pointer-events: auto !important; cursor: pointer !important; }
+svg.sf-overlay[data-specframe].sf-pinned .sf-pill[data-sf-copy]:hover rect { stroke: var(--sf-accent); stroke-width: 2px; }
+svg.sf-overlay[data-specframe].sf-pinned .sf-pill.sf-off[data-sf-copy]:hover rect { stroke: #fff; }
+
+/* ── Type panel ── */
+[data-specframe].sf-types {
+  left: 0 !important; top: 0 !important; transform: translate3d(-9999px, -9999px, 0);
+  display: grid !important; grid-template-columns: 10px auto auto auto auto !important;
+  align-items: center !important; column-gap: 10px !important; row-gap: 0 !important;
+  padding: 6px !important; border-radius: 12px !important; font-size: 12px !important;
+  transition: opacity 160ms ease !important;
+}
+[data-specframe].sf-types.sf-pinned { pointer-events: auto !important; }
+[data-specframe].sf-types .sf-head, [data-specframe].sf-types .sf-more {
+  all: initial; grid-column: 1 / -1 !important; display: block !important; padding: 2px 8px 4px !important;
+  font: inherit !important; font-size: 11px !important; color: rgba(255, 255, 255, 0.55) !important;
+}
+[data-specframe].sf-types .sf-more { padding: 4px 8px 2px !important; }
+[data-specframe].sf-types .sf-row {
+  all: initial; grid-column: 1 / -1 !important; display: grid !important; grid-template-columns: subgrid !important;
+  align-items: center !important; height: 24px !important; padding: 0 8px !important; margin: 0 -2px !important;
+  border-radius: 7px !important; font: inherit !important; color: #fff !important;
+}
+[data-specframe].sf-types.sf-pinned .sf-row { cursor: pointer !important; }
+[data-specframe].sf-types.sf-pinned .sf-row:hover { background: rgba(255, 255, 255, 0.12) !important; }
+[data-specframe].sf-types .sf-cell { all: initial; font: inherit !important; color: inherit !important; white-space: nowrap !important; }
+[data-specframe].sf-types .sf-num { font-variant-numeric: tabular-nums !important; }
+[data-specframe].sf-types .sf-dim { color: rgba(255, 255, 255, 0.6) !important; }
+[data-specframe].sf-types .sf-bad { color: #ff8a6e !important; }
+[data-specframe].sf-types .sf-swatch {
+  all: initial; display: block !important; width: 10px !important; height: 10px !important; border-radius: 3px !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35) !important;
+}
+
+/* Hint while hovering a value: what a click / Alt-click copies */
+[data-specframe].sf-hint .sf-code {
+  all: initial; font: 500 11.5px ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace !important; color: #fff !important;
+  white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important;
+  display: inline-block !important; max-width: 260px !important; margin-right: 4px !important;
+}
+[data-specframe].sf-key.sf-mono { font: 500 12px ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace !important; }
